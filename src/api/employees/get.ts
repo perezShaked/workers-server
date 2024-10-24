@@ -15,7 +15,7 @@ export const getEmployees = async (req: Request, res: Response) => {
 
 export const getHierarchyEmployees = async (req: Request, res: Response) => {
   try {
-    const employees: Employee[] = await fetchEmployees();
+    const employees = await fetchEmployees();
     res.status(200).json(hierarchyEmployees(employees, [], null));
   } catch (error) {
     if (error instanceof Error) {

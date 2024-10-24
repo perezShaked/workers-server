@@ -1,3 +1,6 @@
+import { CeoSchema } from '../schemas';
+import { z } from 'zod';
+
 export type Employee = {
   id: number;
   name: string;
@@ -18,3 +21,5 @@ export type Manager = {
   department_name: string | null;
   myEmployees: Employee[];
 };
+
+export type Ceo = z.infer<typeof CeoSchema>;

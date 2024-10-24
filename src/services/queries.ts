@@ -33,3 +33,15 @@ export const GET_EMPLOYEES = `
     ON employees.department_id = departments.id
   ORDER BY employees.id
 `;
+
+export const GET_CEO = `
+  SELECT 
+    id, 
+    name, 
+    hire_date, 
+    department_id, 
+    manager_id, 
+    grade
+  FROM workers.employees
+  WHERE manager_id IS NULL
+`;

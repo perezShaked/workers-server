@@ -11,3 +11,10 @@ export const EmployeesSchema = z.array(
     department_name: z.string().nullable(),
   })
 );
+
+export const CeoSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  hire_date: z.date(),
+  grade: z.number(),
+});
