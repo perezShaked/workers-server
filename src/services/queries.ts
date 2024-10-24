@@ -45,3 +45,17 @@ export const GET_CEO = `
   FROM workers.employees
   WHERE manager_id IS NULL
 `;
+
+export const GET_RESEARCH_DEPARTMENT = `
+  SELECT 
+  	employees.id,
+    employees.name,
+    employees.hire_date,
+    employees.grade,
+    manager_id,
+    departments.name AS department_name
+  FROM workers.employees
+  LEFT JOIN workers.departments 
+    ON employees.department_id = departments.id
+  WHERE departments.name = 'מחקר'
+`;

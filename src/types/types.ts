@@ -7,7 +7,7 @@ export type Employee = {
   hire_date: Date;
   grade: number;
   manager_id: number | null;
-  manager_name: string | null;
+  manager_name?: string | null;
   department_name: string | null;
 };
 
@@ -17,7 +17,7 @@ export type Manager = {
   hire_date: Date;
   grade: number;
   manager_id: number | null;
-  manager_name: string | null;
+  manager_name?: string | null;
   department_name: string | null;
   myEmployees: Employee[];
 };

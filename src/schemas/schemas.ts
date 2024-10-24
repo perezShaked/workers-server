@@ -7,7 +7,7 @@ export const EmployeesSchema = z.array(
     hire_date: z.date(),
     grade: z.number(),
     manager_id: z.number().nullable(),
-    manager_name: z.string().nullable(),
+    manager_name: z.string().optional().nullable(),
     department_name: z.string().nullable(),
   })
 );
