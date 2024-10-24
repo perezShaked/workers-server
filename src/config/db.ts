@@ -1,18 +1,9 @@
-import { Client } from 'pg';
-import { GET_DEPARTMENTS } from '../services';
+import { Pool } from 'pg';
 
-const client = new Client({
-  host: 'localhost',
+export const db = new Pool({
   user: 'postgres',
-  port: 3000,
-  database: 'postgres',
-});
-
-client.query(GET_DEPARTMENTS, (err, result) => {
-  if (!err) {
-    console.log(result.rows);
-  } else {
-    console.log(err.message);
-  }
-  client.end;
+  host: 'localhost',
+  database: 'shaked',
+  port: 5432,
+  password: '123456',
 });

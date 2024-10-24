@@ -1,5 +1,3 @@
-import { Response, Request } from 'express';
+import { fetchDepartments } from '../../dal/departments';
 
-export const getDepartments = (req: Request, res: Response) => {
-  res.send('shaked');
-};
+export const getDepartments = fetchDepartments;
