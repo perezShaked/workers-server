@@ -1,15 +1,7 @@
-import { CeoSchema } from '../schemas';
+import { CeoSchema, EmployeeSchema } from '../schemas';
 import { z } from 'zod';
 
-export type Employee = {
-  id: number;
-  name: string;
-  hire_date: Date;
-  grade: number;
-  manager_id: number | null;
-  manager_name?: string | null;
-  department_name: string | null;
-};
+export type Employee = z.infer<typeof EmployeeSchema>;
 
 export type Manager = {
   id: number;

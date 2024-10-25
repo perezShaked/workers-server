@@ -59,3 +59,29 @@ export const GET_RESEARCH_DEPARTMENT = `
     ON employees.department_id = departments.id
   WHERE departments.name = 'מחקר'
 `;
+
+export const IS_DEPARTMENT_EXIST = `
+  SELECT 
+    id
+    FROM workers.departments
+    WHERE id = $1;
+`;
+
+export const ADD_NEW_EMPLOYEE = `
+  INSERT INTO workers.employees(
+    name, department_id, manager_id, grade)
+    VALUES ($1, $2, $3, $4)
+`;
+
+export const IS_MANAGER_EXIST = `
+  SELECT 
+    id
+    FROM workers.employees
+    WHERE id = $1;
+`;
+
+export const DELETE_EMPLOYEE_BY_ID = `
+  DELETE 
+  FROM workers.employees
+    WHERE id = $1;
+`
