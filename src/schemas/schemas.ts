@@ -29,3 +29,16 @@ export const NewEmployeeSchema = z.object({
 export const EmployeeIdSchema = z.object({
   id: z.number(),
 });
+
+export const DepartmentWithEmployeesSchema = z.array(
+  z.object({
+    department_id: z.number(),
+    department_name: z.string(),
+    department_employees: z.array(
+      z.object({
+        employee_id: z.number(),
+        employee_name: z.string(),
+      })
+    ),
+  })
+);

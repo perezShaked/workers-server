@@ -1,13 +1,20 @@
 import { db } from '../../config/db';
+import { DepartmentWithEmployeesSchema } from '../../schemas';
 import { GET_DEPARTMENTS } from '../../services';
-import { Request, Response } from 'express';
 
-export const fetchDepartments = (req: Request, res: Response) => {
-  db.query(GET_DEPARTMENTS, (error, result) => {
-    if (error) {
-      throw new Error(error.message);
-    } else {
-      res.status(200).json(result.rows);
-    }
+export const fetchDepartments = () => {
+  return new Promise((resolve, reject) => {
+    db.query(GET_DEPARTMENTS, (error, result) => {
+      if (error) {
+        reject(error);
+      } else {
+        const parseResult = DepartmentWithEmployeesSchema.safeParse(result.rows);
+        if (parseResult.success) {
+          resolve(parseResult.data);
+        } else {
+          reject(parseResult.error);
+        }
+      }
+    });
   });
 };
