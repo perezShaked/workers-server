@@ -12,3 +12,12 @@ export const deleteEmployee = (employee_id: number) => {
     });
   });
 };
+
+/* export const employees = (employee_id: number):boolean => {
+  //אם אין לו אז צריך לבדוק אם הוא לבד בצוות
+}
+
+export const isAloneInTheTeam = (employee_id: number):boolean => {
+  //אם הוא לבד בצוות אז אי אפשר לפטר או לקדם אותו
+}
+ */

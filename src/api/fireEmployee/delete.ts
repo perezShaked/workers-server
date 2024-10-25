@@ -1,27 +1,22 @@
 import { Request, Response } from 'express';
 import { insertNewEmployee, isDepartmentExist, isManagerExist } from '../../dal/addNewEmployee';
-import { NewEmployeeSchema } from '../../schemas';
+import { EmployeeIdSchema, NewEmployeeSchema } from '../../schemas';
+import { deleteEmployee } from '../../dal/fireEmployee';
 
 export const fireEmployee = async (req: Request, res: Response) => {
-  const parseResult = NewEmployeeSchema.safeParse(req.body);
+  const parseResult = EmployeeIdSchema.safeParse(req.body);
   if (!parseResult.success) {
     res.status(400).json({
       error: 'Invalid request data',
       details: parseResult.error.errors,
     });
   } else {
-    const { name, department_id, manager_id, grade } = req.body;
-    if (!(await isDepartmentExist(department_id))) {
-      res.status(400).send('invalid department id');
-    } else if (!(await isManagerExist(manager_id))) {
-      res.status(400).send('invalid manager id');
-    } else {
-      try {
-        await insertNewEmployee(name, department_id, manager_id, grade);
-        res.status(201).send('Employee Add (:');
-      } catch (error) {
-        res.status(500).send('An error occurred while adding the employee');
-      }
+    const employee_id = req.body.id;
+    try {
+      await deleteEmployee(employee_id);
+      res.status(200).send('Employee Fire ):');
+    } catch (error) {
+      res.status(500).send('An error occurred while firing the employee');
     }
   }
 };

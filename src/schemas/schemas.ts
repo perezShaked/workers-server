@@ -25,3 +25,7 @@ export const NewEmployeeSchema = z.object({
   manager_id: z.number(),
   grade: z.number(),
 });
+
+export const EmployeeIdSchema = z.object({
+  id: z.number(),
+});
