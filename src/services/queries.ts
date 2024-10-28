@@ -60,28 +60,18 @@ export const GET_RESEARCH_DEPARTMENT = `
   WHERE departments.name = 'מחקר'
 `;
 
-export const IS_DEPARTMENT_EXIST = `
+export const GET_DEPARTMENT_BY_ID = `
   SELECT 
     id
     FROM workers.departments
     WHERE id = $1;
 `;
 
-export const ADD_NEW_EMPLOYEE = `
-  INSERT INTO workers.employees(
-    name, department_id, manager_id, grade)
-    VALUES ($1, $2, $3, $4)
-`;
 
-export const IS_MANAGER_EXIST = `
+export const GET_EMPLOYEE_BY_ID = `
   SELECT 
     id
     FROM workers.employees
     WHERE id = $1;
 `;
 
-export const DELETE_EMPLOYEE_BY_ID = `
-  DELETE 
-  FROM workers.employees
-    WHERE id = $1;
-`

@@ -1,22 +1,15 @@
-import { fetchResearchDepartment } from '../../dal/researchDepartment';
+import { fetchResearchDepartment } from '../../dal';
 import { Request, Response } from 'express';
-import { Employee } from '../../types';
+import { StatusCodes } from 'http-status-codes';
+import {getHeadOfDepartment} from '../../utils'
 
-export const getHeadOfResearchDepartment = async (req: Request, res: Response) => {
+export const getHeadOfResearchDepartment = async (_req: Request, res: Response) => {
   try {
     const researchDepartment = await fetchResearchDepartment();
-    res.status(200).json(headOfResearchDepartment(researchDepartment));
+    res.status(StatusCodes.OK).json(getHeadOfDepartment(researchDepartment));
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
-const headOfResearchDepartment = (researchDepartment: Employee[]) => {
-  const managersIds = new Set(researchDepartment.map((employee) => employee.id));
-  const headOf = researchDepartment.find((employee) => {
-    return employee.manager_id != null && !managersIds.has(employee.manager_id);
-  });
-  return headOf;
-};
+

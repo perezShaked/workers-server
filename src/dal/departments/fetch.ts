@@ -1,5 +1,5 @@
-import { db } from '../../config/db';
-import { DepartmentWithEmployeesSchema } from '../../schemas';
+import { db } from '../../config';
+import { DepartmentWithEmployeesSchema } from '../../validation';
 import { GET_DEPARTMENTS } from '../../services';
 
 export const fetchDepartments = () => {
@@ -8,12 +8,10 @@ export const fetchDepartments = () => {
       if (error) {
         reject(error);
       } else {
-        const parseResult = DepartmentWithEmployeesSchema.safeParse(result.rows);
-        if (parseResult.success) {
-          resolve(parseResult.data);
-        } else {
-          reject(parseResult.error);
-        }
+        const parsedDepartment = DepartmentWithEmployeesSchema.safeParse(result.rows);
+        parsedDepartment.success
+          ? resolve(parsedDepartment.data)
+          : reject(parsedDepartment.error.errors);
       }
     });
   });

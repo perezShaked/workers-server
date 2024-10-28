@@ -1,50 +1,46 @@
-import { fetchEmployees } from '../../dal/employees';
+import { fetchEmployees } from '../../dal';
 import { Request, Response } from 'express';
 import { Employee, Manager } from '../../types';
+import { StatusCodes } from 'http-status-codes';
+import { isSubordinate } from '../../utils';
 
-export const getEmployees = async (req: Request, res: Response) => {
+export const getEmployees = async (_req: Request, res: Response) => {
   try {
     const employees = await fetchEmployees();
-    res.status(200).json(employees);
+    res.status(StatusCodes.OK).json(employees);
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
-export const getHierarchyEmployees = async (req: Request, res: Response) => {
+export const getHierarchyEmployees = async (_req: Request, res: Response) => {
   try {
     const employees = await fetchEmployees();
-    res.status(200).json(hierarchyEmployees(employees, [], null));
+    res.status(StatusCodes.OK).json(hierarchyEmployees(employees, [], null));
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };
 
 const hierarchyEmployees = (
-  employees: Employee[],
-  hierarchy: Manager[],
-  manager_id: number | null
-) => {
-  if (employees.length == 0) {
-    return hierarchy;
+  allEmployees: Employee[],
+  employeeWithSubordinates: Manager[],
+  managerId: number | null
+): Manager[] => {
+  if (allEmployees.length === 0) {
+    return employeeWithSubordinates;
   }
-  employees.forEach((employee) => {
-    if (isSubordinate(employee, manager_id)) {
-      const updatedEmployees = employees.filter((emp) => emp.id !== employee.id);
-      const newEmployee: Manager = { ...employee, myEmployees: [] };
 
-      newEmployee.myEmployees = hierarchyEmployees(updatedEmployees, [], employee.id);
+  allEmployees.forEach((employee) => {
+    if (isSubordinate(employee, managerId)) {
+      const remainingEmployees = allEmployees.filter((emp) => emp.id !== employee.id);
+      const managerNode: Manager = { ...employee, myEmployees: [] };
 
-      hierarchy.push(newEmployee);
+      managerNode.myEmployees = hierarchyEmployees(remainingEmployees, [], employee.id);
+
+      employeeWithSubordinates.push(managerNode);
     }
   });
-  return hierarchy;
-};
 
-const isSubordinate = (employee: Employee, manager_id: number | null): boolean => {
-  return employee.manager_id === manager_id;
+  return employeeWithSubordinates;
 };

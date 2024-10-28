@@ -1,13 +1,12 @@
-import { fetchCEO } from '../../dal/ceo';
+import { StatusCodes } from 'http-status-codes';
+import { fetchCEO } from '../../dal';
 import { Request, Response } from 'express';
 
-export const getCEO = async (req: Request, res: Response) => {
+export const getCEO = async (_req: Request, res: Response) => {
   try {
     const ceo = await fetchCEO();
-    res.status(200).json(ceo);
+    res.status(StatusCodes.OK).json(ceo);
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };

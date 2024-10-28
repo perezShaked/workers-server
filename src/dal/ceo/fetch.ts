@@ -1,20 +1,16 @@
-import { db } from '../../config/db';
-import { CeoSchema } from '../../schemas';
+import { db } from '../../config';
+import { EmployeeSchema } from '../../validation';
 import { GET_CEO } from '../../services';
-import { Ceo } from '../../types';
+import { Employee } from '../../types';
 
 export const fetchCEO = () => {
-  return new Promise<Ceo>((resolve, reject) => {
+  return new Promise<Employee>((resolve, reject) => {
     db.query(GET_CEO, (error, result) => {
       if (error) {
         reject(error);
       } else {
-        const parseResult = CeoSchema.safeParse(result.rows[0]);
-        if (parseResult.success) {
-          resolve(parseResult.data);
-        } else {
-          reject(parseResult.error);
-        }
+        const parsedEmployee = EmployeeSchema.safeParse(result.rows[0]);
+        parsedEmployee.success ? resolve(parsedEmployee.data) : reject(parsedEmployee.error.errors);
       }
     });
   });

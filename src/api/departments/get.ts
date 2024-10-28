@@ -1,13 +1,12 @@
 import { Request, Response } from 'express';
-import { fetchDepartments } from '../../dal/departments';
+import { fetchDepartments } from '../../dal';
+import { StatusCodes } from 'http-status-codes';
 
-export const getDepartments = async (req: Request, res: Response) => {
+export const getDepartments = async (_req: Request, res: Response) => {
   try {
-    const ceo = await fetchDepartments();
-    res.status(200).json(ceo);
+    const departments = await fetchDepartments();
+    res.status(StatusCodes.OK).json(departments);
   } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error });
-    }
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error });
   }
 };

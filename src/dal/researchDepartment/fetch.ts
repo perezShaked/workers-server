@@ -1,7 +1,7 @@
-import { db } from '../../config/db';
-import { EmployeesSchema } from '../../schemas';
+import { db } from '../../config';
+import { EmployeesSchema } from '../../validation';
 import { GET_RESEARCH_DEPARTMENT } from '../../services';
-import { Ceo, Employee } from '../../types';
+import { Employee } from '../../types';
 
 export const fetchResearchDepartment = () => {
   return new Promise<Employee[]>((resolve, reject) => {
@@ -9,12 +9,8 @@ export const fetchResearchDepartment = () => {
       if (error) {
         reject(error);
       } else {
-        const parseResult = EmployeesSchema.safeParse(result.rows);
-        if (parseResult.success) {
-          resolve(parseResult.data);
-        } else {
-          reject(parseResult.error);
-        }
+        const parseEmployees = EmployeesSchema.safeParse(result.rows);
+        parseEmployees.success ? resolve(parseEmployees.data) : reject(parseEmployees.error.errors);
       }
     });
   });

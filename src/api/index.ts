@@ -4,7 +4,7 @@ import { employeesRouter } from './employees';
 import { ceoRouter } from './ceo';
 import { headOfResearchDepartmentRouter } from './researchDepartment';
 import { addNewEmployeeRouter } from './addNewEmployee';
-import { fireEmployeeRouter } from './fireEmployee/fireEmployeeRouter';
+import { fireEmployeeRouter } from './fireEmployee';
 
 export const apiRouter = Router();
 

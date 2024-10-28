@@ -1,5 +1,5 @@
-import { db } from '../../config/db';
-import { EmployeesSchema } from '../../schemas';
+import { db } from '../../config';
+import { EmployeesSchema } from '../../validation';
 import { GET_EMPLOYEES } from '../../services';
 import { Employee } from '../../types';
 
@@ -9,12 +9,8 @@ export const fetchEmployees = () => {
       if (error) {
         reject(error);
       } else {
-        const parseResult = EmployeesSchema.safeParse(result.rows);
-        if (parseResult.success) {
-          resolve(parseResult.data);
-        } else {
-          reject(parseResult.error);
-        }
+        const parseEmployees = EmployeesSchema.safeParse(result.rows);
+        parseEmployees.success ? resolve(parseEmployees.data) : reject(parseEmployees.error.errors);
       }
     });
   });
